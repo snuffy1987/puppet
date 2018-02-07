@@ -1,0 +1,50 @@
+nagios::package_ensure: present
+nagios::package_name: [ 'nagios','httpd','pnp4nagios','nagios-plugins-all','nagios-plugins-nrpe' ]
+nagios::service_name: ['nagios','httpd']
+nagios::service_ensure: running
+nagios::service_enable: true
+nagios::process_perf_path: /usr/libexec/pnp4nagios/process_perfdata.pl
+nagios::config_dir: '/etc/nagios/conf.d'
+
+nagios::nrpe::install::package_ensure: present
+nagios::nrpe::install::package_name: [ 'nrpe','nagios-plugins-nrpe' ]
+nagios::nrpe::install::service_name: ['nrpe']
+nagios::nrpe::install::service_ensure: running
+nagios::nrpe::install::service_enable: true
+nagios::nrpe::config::nrpe_allowed: '192.168.2.254,192.168.1.101'
+
+nagios::nscp::install::nscp_binary: 'NSCP-0.4.3.143-x64.msi'
+nagios::nscp::install::install_directory: 'c:/temp_install'
+nagios::nscp::install::nscp_allowed: '192.168.1.101'
+nagios::nscp::install::nscp_config: 'nsclient.ini'
+nagios::nscp::install::nscp_service: 'nscp'
+nagios::nscp::install::nscp_service_ensure: running
+nagios::nscp::install::nscp_service_enable: true
+
+nagios::object::service:
+  SERVER1:
+    services:
+      -  'check-host-alive'
+      -  'check_nt!CLIENTVERSION' 
+      -  'check_nt!MEMUSE!-w' 
+      -  'check_nt!UPTIME' 
+      -  'check_CPUUsage' 
+      -  'check_EsetService' 
+      -  'check_ERAServer' 
+      -  'check_disk_c' 
+      -  'check_RemoteRegistry' 
+  SERVER2:
+    services:
+      - 'check-host-alive'
+      - 'check_nt!CLIENTVERSION'
+      - 'check_nt!MEMUSE!-w'
+      - 'check_nt!UPTIME'
+      - 'check_CPUUsage'
+      - 'check_disk_c'
+      - 'check_ADWS'
+      - 'check_Dfs'
+      - 'check_DFSR'
+      - 'check_wuauserv'
+      - 'check_XenGuestAgent'
+      - 'check_NPS'
+      - 'check_IKE'

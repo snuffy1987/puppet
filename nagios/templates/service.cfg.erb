@@ -1,0 +1,7 @@
+define service {
+                use                                   generic-service,service-pnp 
+                host_name                             <%= @hostname   %>
+                service_description                   <%= @hostname   %> - <%= @services.tr('!', '')   %>
+                check_command                         <%= @services   %>
+                }
+
